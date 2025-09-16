@@ -1,5 +1,6 @@
 package com.shoppingcart.cartify.Controller;
 
+import com.shoppingcart.cartify.dto.ProductDto;
 import com.shoppingcart.cartify.exception.ProductNotFoundException;
 import com.shoppingcart.cartify.model.Product;
 import com.shoppingcart.cartify.request.AddProductRequest;
@@ -21,45 +22,45 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
+    public ResponseEntity<List<ProductDto>> getAllProducts() {
         List<Product> products = productService.getAllProducts();
         if (products.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(products);
+        return ResponseEntity.ok(productService.getConvertedProducts(products));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable long id) {
-        return ResponseEntity.ok(productService.getProductById(id));
+    public ResponseEntity<ProductDto> getProductById(@PathVariable long id) {
+        return ResponseEntity.ok(productService.convertToDto(productService.getProductById(id)));
     }
 
     @GetMapping("/category/{categoryName}")
-    public ResponseEntity<List<Product>> getProductsByCategoryName(@PathVariable String categoryName) {
+    public ResponseEntity<List<ProductDto>> getProductsByCategoryName(@PathVariable String categoryName) {
         List<Product> products = productService.getProductsByCategoryName(categoryName);
         if (products.isEmpty()) return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(products);
+        return ResponseEntity.ok(productService.getConvertedProducts(products));
     }
 
     @GetMapping("/brand/{brandName}")
-    public ResponseEntity<List<Product>> getProductsByBrand(@PathVariable String brandName) {
+    public ResponseEntity<List<ProductDto>> getProductsByBrand(@PathVariable String brandName) {
         List<Product> products = productService.getProductsByBrand(brandName);
         if (products.isEmpty()) return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(products);
+        return ResponseEntity.ok(productService.getConvertedProducts(products));
     }
 
     @GetMapping("/category/{name}/brand/{brand}")
-    public ResponseEntity<List<Product>> getProductsByCategoryAndBrand(@PathVariable String name, @PathVariable String brand) {
+    public ResponseEntity<List<ProductDto>> getProductsByCategoryAndBrand(@PathVariable String name, @PathVariable String brand) {
         List<Product> products = productService.getProductsByCategoryAndBrand(name, brand);
         if (products.isEmpty()) return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(products);
+        return ResponseEntity.ok(productService.getConvertedProducts(products));
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<List<Product>> getProductsByName(@PathVariable String name) {
+    public ResponseEntity<List<ProductDto>> getProductsByName(@PathVariable String name) {
         List<Product> products = productService.getProductsByName(name);
         if (products.isEmpty()) return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(products);
+        return ResponseEntity.ok(productService.getConvertedProducts(products));
     }
 
     @GetMapping("/count/brand/{brand}")
@@ -69,18 +70,11 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody AddProductRequest request) {
-        try {
-            Product product = productService.addProduct(request);
-            return ResponseEntity
-                    .created(URI.create("/products/" + product.getId()))
-                    .body(product);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        return ResponseEntity.ok(productService.addProduct(request));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable long id){
+    public ResponseEntity<Void> deleteProduct(@PathVariable long id){
             try{
                 productService.deleteProductById(id);
                 return ResponseEntity.noContent().build();
@@ -89,13 +83,13 @@ public class ProductController {
             }
     }
     @PutMapping("{id}")
-    public ResponseEntity<Product> updateProduct(@RequestBody ProductUpdateRequest request, @PathVariable long id){
+    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductUpdateRequest request, @PathVariable long id){
 
         Product product = productService.updateProduct(request , id);
 
         if(product == null){
             return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<Product>(product , HttpStatus.OK);
+        return ResponseEntity.ok(productService.convertToDto(product));
     }
 }

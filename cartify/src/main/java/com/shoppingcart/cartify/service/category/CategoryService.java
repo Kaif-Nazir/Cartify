@@ -18,23 +18,21 @@ public class CategoryService implements ICategoryService{
 
     @Override
     public Category getCategoryById(long id) {
-        return categoryRepository.findById(id).
-                orElseThrow(() -> new CategoryNotFoundException("Category Not Found"));
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException("Category Not Found"));
     }
 
     @Override
     public Category getCategoryByName(String name) {
         Category category = categoryRepository.findByName(name);
-
             if(category == null){
                 throw new CategoryNotFoundException("Category Not Found");
             }
             return category;
-
     }
 
     @Override
-    public List<Category> getAllCategory() {
+    public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 

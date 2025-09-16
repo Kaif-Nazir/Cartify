@@ -1,5 +1,6 @@
 package com.shoppingcart.cartify.service.product;
 
+import com.shoppingcart.cartify.dto.ProductDto;
 import com.shoppingcart.cartify.model.Product;
 import com.shoppingcart.cartify.request.AddProductRequest;
 import com.shoppingcart.cartify.request.ProductUpdateRequest;
@@ -19,5 +20,7 @@ public interface IProductService {
     List<Product> getProductsByCategoryAndBrand(String category , String brand);
     Long countProductsByBrand(String brand);
 
+    List<ProductDto> getConvertedProducts(List<Product> products);
+    ProductDto convertToDto(Product product);
 
 }

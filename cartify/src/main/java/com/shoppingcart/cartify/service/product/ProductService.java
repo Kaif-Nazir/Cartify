@@ -1,5 +1,6 @@
 package com.shoppingcart.cartify.service.product;
 
+import com.shoppingcart.cartify.dto.ProductDto;
 import com.shoppingcart.cartify.exception.ProductNotFoundException;
 import com.shoppingcart.cartify.model.Category;
 import com.shoppingcart.cartify.model.Product;
@@ -8,6 +9,7 @@ import com.shoppingcart.cartify.repository.ProductRepository;
 import com.shoppingcart.cartify.request.AddProductRequest;
 import com.shoppingcart.cartify.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class ProductService  implements IProductService{
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public void deleteProductById(long id) {
@@ -73,7 +76,6 @@ public class ProductService  implements IProductService{
 
     @Override
     public Product getProductById(long id) {
-//        return productRepository.findById(id).orElseThrow(()-> new IllegalStateException("Product Not Found"));
         return productRepository.findById(id).
                 orElseThrow(()-> new ProductNotFoundException("Product Not Found"));
     }
@@ -101,5 +103,16 @@ public class ProductService  implements IProductService{
     @Override
     public Long countProductsByBrand(String brand) {
         return productRepository.countByBrand(brand );
+    }
+
+    @Override
+    public List<ProductDto> getConvertedProducts(List<Product> products) {
+        return products.stream().map(this::convertToDto).toList();
+    }
+
+    @Override
+    public ProductDto convertToDto(Product product) {
+        return modelMapper.map(product, ProductDto.class);
+
     }
 }

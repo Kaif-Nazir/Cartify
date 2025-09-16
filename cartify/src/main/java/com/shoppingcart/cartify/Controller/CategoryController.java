@@ -18,10 +18,10 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<Category>> getAllCategories(){
 
-        List<Category> allCategories = categoryService.getAllCategory();
+        List<Category> allCategories = categoryService.getAllCategories();
         if(allCategories != null && !allCategories.isEmpty()){
             return new ResponseEntity<>(allCategories , HttpStatus.OK);
         }

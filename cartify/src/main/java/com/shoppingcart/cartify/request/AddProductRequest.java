@@ -1,5 +1,6 @@
 package com.shoppingcart.cartify.request;
 
+import com.shoppingcart.cartify.model.Category;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,10 +13,5 @@ public class AddProductRequest {
     private BigDecimal price;
     private int inventory;
     private String description;
-    private CategoryRequest category; // nested DTO
-
-    @Data
-    public static class CategoryRequest {
-        private String name;
-    }
+    private Category category; // nested DTO
 }

@@ -25,15 +25,12 @@ public class Category {
     private String name;
 
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category")
     @JsonIgnore
-    @JsonManagedReference
     private List<Product> product;
 
 
     public Category(String name) {
         this.name = name;
     }
-
-
 }
