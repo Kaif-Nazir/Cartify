@@ -39,7 +39,6 @@ public class UserService implements IUserService{
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
         Cart cart = new Cart();
         cart.setUser(user);
         user.setCart(cart);

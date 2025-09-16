@@ -32,9 +32,14 @@ public class ProductService  implements IProductService{
 
     @Override
     public Product addProduct(AddProductRequest request) {
+
+        if(productRepository.existsByNameAndBrand(request.getName() , request.getBrand()))
+            throw new IllegalStateException("Product Already Exists with Name :" + request.getName() + " Brand " + request.getBrand());
+
         Category category = Optional.ofNullable(
                         categoryRepository.findByName(request.getCategory().getName()))
                 .orElseGet(() -> categoryRepository.save(new Category(request.getCategory().getName())));
+
 
         Product product = new Product(
                 request.getName(),

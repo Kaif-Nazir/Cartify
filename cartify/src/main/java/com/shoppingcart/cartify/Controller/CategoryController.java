@@ -55,11 +55,10 @@ public class CategoryController {
     public ResponseEntity<Category> updateCategory(@PathVariable long id , @RequestBody CategoryUpdateRequest category){
 
         Category oldCategory = categoryService.updateCategory(category , id);
-
-        if(oldCategory == null){
+        /*if(oldCategory == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(oldCategory , HttpStatus.OK);
+        }*/
+        return ResponseEntity.ok(oldCategory);
     }
     @PostMapping()
     public ResponseEntity<Category> addCategory(@RequestBody Category category){

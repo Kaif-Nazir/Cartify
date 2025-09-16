@@ -1,6 +1,7 @@
 package com.shoppingcart.cartify.controller;
 
 
+import com.shoppingcart.cartify.dto.CartDto;
 import com.shoppingcart.cartify.model.Cart;
 import com.shoppingcart.cartify.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +19,10 @@ public class CartController {
 
     // Get cart by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Cart> getCart(@PathVariable Long id) {
-        return ResponseEntity.ok(cartService.getCart(id));
+    public ResponseEntity<CartDto> getCart(@PathVariable Long id) {
+        return ResponseEntity.ok(cartService.convertToDto(cartService.getCart(id)));
     }
 
-    /*@PostMapping("/create")
-    public ResponseEntity<Cart> createCart(){
-        Cart cart = new Cart();
-        cart = cartService.saveCart(cart);
-        return ResponseEntity.ok(cart);
-    }*/
 
     // Clear cart by ID
     @DeleteMapping("/{id}/clear")

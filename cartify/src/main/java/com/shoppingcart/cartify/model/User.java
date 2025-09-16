@@ -26,7 +26,6 @@ public class User {
     private String lastName;
     @NaturalId
     private String email;
-    private String password;
 
     @OneToOne(mappedBy = "user" , cascade = CascadeType.ALL , orphanRemoval = true)
     @JsonManagedReference
@@ -35,5 +34,6 @@ public class User {
     @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL , orphanRemoval = true)
     @JsonManagedReference
     private List<Orders> orders;
+
 
 }

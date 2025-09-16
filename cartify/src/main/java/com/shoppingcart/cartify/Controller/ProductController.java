@@ -7,7 +7,6 @@ import com.shoppingcart.cartify.request.AddProductRequest;
 import com.shoppingcart.cartify.request.ProductUpdateRequest;
 import com.shoppingcart.cartify.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

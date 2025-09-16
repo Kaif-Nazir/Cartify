@@ -1,11 +1,13 @@
 package com.shoppingcart.cartify.service.cart;
 
+import com.shoppingcart.cartify.dto.CartDto;
 import com.shoppingcart.cartify.exception.ResourceNotFoundException;
 import com.shoppingcart.cartify.exception.UserNotFoundException;
 import com.shoppingcart.cartify.model.Cart;
 import com.shoppingcart.cartify.repository.CartItemRepository;
 import com.shoppingcart.cartify.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,7 @@ public class CartService implements  ICartService{
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public Cart getCart(Long id) {
@@ -50,4 +53,9 @@ public class CartService implements  ICartService{
         return Optional.ofNullable(cartRepository.getCartByUserId(id))
                 .orElseThrow(() -> new UserNotFoundException("User Not Found With This Id : " + id));
     }
+
+    public CartDto convertToDto(Cart cart){
+        return modelMapper.map(cart , CartDto.class);
+    }
+
 }

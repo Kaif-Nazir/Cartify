@@ -45,12 +45,6 @@ public class CategoryService implements ICategoryService{
         }
         return categoryRepository.save(category);
     }
-
-        /*return Optional.ofNullable(getCategoryById(id))
-                .map(oldCategory -> {oldCategory.setName(category.getName());
-                    return categoryRepository.save(oldCategory);
-                }).orElseThrow(() -> new CategoryNotFoundException("Category Not Found"));*/
-
     @Override
     public Category updateCategory(CategoryUpdateRequest category , long id) {
 
